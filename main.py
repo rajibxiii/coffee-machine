@@ -12,9 +12,9 @@ def printReport ():
 
 def placeOrder (water, milk, coffee, coins, cost):
     global profit
-    menu.resources['water']-water # TODO: edit: resources-=resourceneeded
-    menu.resources['milk']-milk
-    menu.resources['coffee']-coffee
+    menu.resources['water'] -= water
+    menu.resources['milk'] -= milk
+    menu.resources['coffee'] -= coffee
     profit += cost
     refund = coins - cost
 
@@ -28,7 +28,7 @@ def checkAndOrder():
     milkLeft = menu.resources['milk']
     coffeeLeft = menu.resources['coffee']
 
-    waterNeeded = menu.MENU[prompt]['ingredients']['water'] # if not off/report
+    waterNeeded = menu.MENU[prompt]['ingredients']['water']
     if ('milk' in menu.MENU[prompt]['ingredients']):
         milkNeeded = menu.MENU[prompt]['ingredients']['milk']
     else: milkNeeded = 0
