@@ -5,7 +5,11 @@ from time import sleep
 
 profit = round(0.0, 2)
 
-
+def wait (waitingTime):
+    for i in range (waitingTime, 0, -1):
+        stdout.write (f"\rNext order in {i} seconds") #temporary print
+        stdout.flush() #deleting temporary print
+        sleep (1)
 
 def printReport ():
     global profit
@@ -72,12 +76,13 @@ def isEnoughResources():
 
         if (coinsValue < costPerCup):
             print ("Sorry. That's not enough money. Money refunded.\n")
+            wait (5)
             return False
         else:
-            placeOrder(waterNeeded, milkNeeded, coffeeNeeded, coinsValue, costPerCup)
-
+            return True
     else:
         print (f"Sorry. There is not enough {resoourceRequired}.\n")
+        wait (5)
         return False
 
 machine_on = True
