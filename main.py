@@ -1,7 +1,15 @@
 import menu
-from sys import exit
+from sys import exit, stdout
+from os import system
+from time import sleep
 
 profit = round(0.0, 2)
+
+def wait (waitingTime):
+    for i in range (waitingTime, 0, -1):
+        stdout.write (f"\rNext order in {i} seconds") #temporary print
+        stdout.flush() #deleting temporary print
+        sleep (1)
 
 def printReport ():
     global profit
@@ -21,9 +29,9 @@ def placeOrder (water, milk, coffee, coins, cost):
     print ()
     if (refund>0):
         print (f"Here's your ৳ {round(refund, 2)} in change.")
-    print (f"Enjoy your coffee. ")
+    print (f"Enjoy your coffee.\n")
 
-def checkAndOrder():
+def isEnoughResources():
     waterLeft = menu.resources['water']
     milkLeft = menu.resources['milk']
     coffeeLeft = menu.resources['coffee']
@@ -67,21 +75,28 @@ def checkAndOrder():
                 print ("Wrong input. Please enter again.")
 
         if (coinsValue < costPerCup):
-            print ("Sorry. That's not enough money. Money refunded.")
-            exit()
+            print ("Sorry. That's not enough money. Money refunded.\n")
+            wait(5)
+            return False
         else:
             placeOrder(waterNeeded, milkNeeded, coffeeNeeded, coinsValue, costPerCup)
 
     else:
-        print (f"Sorry. There is not enough {resoourceRequired}.")
-        exit()
+        print (f"Sorry. There is not enough {resoourceRequired}.\n")
+        return False
 
-prompt = input ("What would you like? (espresso/latte/cappuccino): ")
-if prompt == 'off':
-    exit("Machine turned off.")
-elif prompt == 'report':
-    printReport()
-elif (prompt == 'espresso' or prompt == 'latte' or prompt == 'cappuccino'):
-    checkAndOrder()
-else:
-    exit("Wrong input. Start again.")
+machine_on = True
+while machine_on:
+    prompt = input ("What would you like? (espresso/latte/cappuccino): ")
+    if prompt == 'off':
+        machine_on = False
+    elif prompt == 'report':
+        printReport()
+    elif (prompt == 'espresso' or prompt == 'latte' or prompt == 'cappuccino'):
+        if(isEnoughResources()):
+            placeOrder()
+        else: system('cls')
+    else:
+        print("Wrong input. Enter again.")
+
+exit("Machine turned off.")
